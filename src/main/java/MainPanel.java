@@ -21,7 +21,6 @@ public class MainPanel extends BasicPanel {
     private final GetImageFromFacebook getImageFromFacebook;
     private ChromeDriver driver;
     private JLabel message;
-    private List <Button>allButton;
 
     public MainPanel(int x, int y, int w, int h, Color color) {
         super(x, y, w, h, Constants.BAKE_GROUND);
@@ -40,7 +39,6 @@ public class MainPanel extends BasicPanel {
         initUserTextFiled();
         initAllLabel();
         this.images = new MyFilters();
-        allButton= new ArrayList<>();
         initAllButton();
         initDriver();
     }
@@ -118,7 +116,6 @@ public class MainPanel extends BasicPanel {
                     Constants.TEXT_FIELD_W, Constants.TEXT_FIELD_H, Color.white, Color.black);
             addActButton(button, i + 1);
             currentY += Constants.TEXT_FIELD_H;
-            this.allButton.add(button);
         }
         this.message = addJLabel("",Constants.TEXT_FIELD_X-50,currentY-10,Constants.TEXT_FIELD_W+100,Constants.TEXT_FIELD_H, Constants.TEXT_SIZE, Color.white);
     }
