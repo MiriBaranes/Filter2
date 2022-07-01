@@ -3,14 +3,14 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainPanel extends BasicPanel {
     public static final String TITLE = "WELCOME TO IMAGE PROCESSING APP!";
@@ -21,6 +21,7 @@ public class MainPanel extends BasicPanel {
     private final GetImageFromFacebook getImageFromFacebook;
     private ChromeDriver driver;
     private JLabel message;
+    private List <Button>allButton;
 
     public MainPanel(int x, int y, int w, int h, Color color) {
         super(x, y, w, h, Constants.BAKE_GROUND);
@@ -39,6 +40,7 @@ public class MainPanel extends BasicPanel {
         initUserTextFiled();
         initAllLabel();
         this.images = new MyFilters();
+        allButton= new ArrayList<>();
         initAllButton();
         initDriver();
     }
@@ -70,10 +72,9 @@ public class MainPanel extends BasicPanel {
     public void initAllLabel() {
         addJLabel(TITLE, Constants.TITLE_X,
                 Constants.TITLE_Y, Constants.TITLE_W, Constants.TITLE_H, Constants.TITLE_SIZE, Color.white);
-        JLabel text = addJLabel(REQUEST,
+       addJLabel(REQUEST,
                 Constants.TEXT_X, Constants.TEXT_Y, Constants.TEXT_W, Constants.TEXT_H,
                 Constants.TEXT_SIZE, Color.white);
-        this.message = addJLabel("", text.getX(), text.getY() - text.getHeight(), text.getWidth(), text.getHeight(), Constants.TEXT_SIZE, Color.red);
     }
 
     public void setMessage(String message) {
@@ -85,12 +86,15 @@ public class MainPanel extends BasicPanel {
         this.userProfile = addTextField(Constants.TEXT_FIELD_X, Constants.TEXT_FIELD_Y,
                 Constants.TEXT_FIELD_W, Constants.TEXT_FIELD_H);
         userProfile.addActionListener(e -> {
-            this.getImageFromFacebook.stop();
-            driver.get(GetImageFromFacebook.URL_FACEBOOK + userProfile.getText().replace(" ", "."));
-            userProfile.setText("");
-            driver.manage();
-            this.getImageFromFacebook.startAgain();
+            String name=userProfile.getText();
+            this.userProfile.setText("");
+            run(name);
+            repaint();
         });
+    }
+    public void run(String name){
+        driver.get(GetImageFromFacebook.URL_FACEBOOK +name.replace(" ", "."));
+        this.getImageFromFacebook.startAgain();
     }
 
     protected void paintComponent(Graphics g) {
@@ -114,7 +118,9 @@ public class MainPanel extends BasicPanel {
                     Constants.TEXT_FIELD_W, Constants.TEXT_FIELD_H, Color.white, Color.black);
             addActButton(button, i + 1);
             currentY += Constants.TEXT_FIELD_H;
+            this.allButton.add(button);
         }
+        this.message = addJLabel("",Constants.TEXT_FIELD_X-50,currentY-10,Constants.TEXT_FIELD_W+100,Constants.TEXT_FIELD_H, Constants.TEXT_SIZE, Color.white);
     }
 
     public void addActButton(Button button, int type) {
@@ -131,6 +137,7 @@ public class MainPanel extends BasicPanel {
             try {
                 this.originalImage = ImageIO.read(url);
                 images.setImageForEditing(url);
+                this.setMessage("");
                 this.repaint();
                 change = true;
             } catch (IOException e) {

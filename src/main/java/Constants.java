@@ -10,7 +10,7 @@ public class Constants {
     public static final int TITLE_Y = 10;
     public static final int TITLE_H = 100;
     public static final int TITLE_SIZE= 30;
-    public static final String BAKE_GROUND="213-2132426_ftestickers-background-sky-star-sky-star-png.png";
+    public static final String BAKE_GROUND="old-grunge-textures-backgrounds-perfect-background-with-space-free-photo.jpg";///"213-2132426_ftestickers-background-sky-star-sky-star-png.png";
 
     public static final int TEXT_SIZE= 15;
     public static final int TEXT_W= 400;

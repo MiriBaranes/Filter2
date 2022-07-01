@@ -20,7 +20,6 @@ public class GetImageFromFacebook implements Runnable {
     }
 
     public void startAgain() {
-        this.panel.setMessage("");
         this.running = true;
         run();
     }
